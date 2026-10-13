@@ -413,76 +413,138 @@ if analyze_clicked:
 
                     st.success("Analysis completed successfully!")
 
-                    st.markdown("## 📊 Your Analysis Results")
+                    # PREMIUM ANALYSIS DASHBOARD
+                    st.markdown("---")
+                    st.markdown("## 📊 Your Analysis Dashboard")
                     st.caption(
-                        "Here is how your resume compares with the job description."
+                        "Your resume compatibility report is ready."
                     )
+                    st.success("Analysis completed successfully!")
+
+                    score = max(
+                        0,
+                        min(100, float(result["score"]))
+                    )
+
+                    # Match score card
+                    with st.container(border=True):
+                        st.markdown("### 🎯 Overall Resume Match")
+
+                        score_col, info_col = st.columns([1, 2])
+
+                        with score_col:
+                            st.metric(
+                                "Skill Match Score",
+                                f"{score:.0f}%"
+                            )
+
+                        with info_col:
+                            st.markdown("#### Your compatibility")
+                            st.progress(score / 100)
+
+                            if score >= 75:
+                                st.success(
+                                    "Strong skill match! Review the missing "
+                                    "skills before applying."
+                                )
+                            elif score >= 45:
+                                st.info(
+                                    "Moderate match. Improving relevant "
+                                    "skills may strengthen your profile."
+                                )
+                            else:
+                                st.warning(
+                                    "Several skill gaps were identified. "
+                                    "Review the job requirements carefully."
+                                )
+
+                    # Summary metrics
+                    st.markdown("### 📌 Skills at a Glance")
 
                     col1, col2, col3 = st.columns(3)
 
-                    col1.metric(
-                        "🎯 Skill Match Score",
-                        f"{result['score']}%"
-                    )
-                    col2.metric(
-                        "✅ Matched Skills",
-                        len(result["matched"])
-                    )
-                    col3.metric(
-                        "📌 Missing Skills",
-                        len(result["missing"])
-                    )
+                    with col1:
+                        st.metric(
+                            "✅ Matched Skills",
+                            len(result["matched"])
+                        )
 
-                    st.progress(
-                        max(0.0, min(1.0, float(result["score"]) / 100))
-                    )
+                    with col2:
+                        st.metric(
+                            "📚 Missing Skills",
+                            len(result["missing"])
+                        )
+
+                    with col3:
+                        total_skills = (
+                            len(result["matched"])
+                            + len(result["missing"])
+                        )
+
+                        st.metric(
+                            "🧩 Skills Identified",
+                            total_skills
+                        )
+
+                    # Skill comparison cards
+                    st.markdown("### 🧩 Skill Breakdown")
 
                     left, right = st.columns(2)
 
                     with left:
                         with st.container(border=True):
-                            st.subheader("✅ Matched Skills")
+                            st.markdown("### ✅ Matched Skills")
 
                             if result["matched"]:
                                 for skill in result["matched"]:
                                     st.markdown(f"- 🟢 {skill}")
                             else:
-                                st.write("No matching skills identified.")
+                                st.write(
+                                    "No matching skills identified."
+                                )
 
                     with right:
                         with st.container(border=True):
-                            st.subheader("📌 Missing Skills")
+                            st.markdown("### 📌 Missing Skills")
 
                             if result["missing"]:
                                 for skill in result["missing"]:
                                     st.markdown(f"- 🟠 {skill}")
                             else:
-                                st.write(
-                                    "No identified skills are missing."
+                                st.success(
+                                    "All identified skills matched!"
                                 )
 
+                    # Improvement suggestions
                     with st.container(border=True):
-                        st.subheader("💡 Improvement Suggestions")
+                        st.markdown("### 💡 Recommended Next Steps")
 
                         if result["missing"]:
                             st.write(
-                                "Review these skills and learn or highlight "
-                                "them where relevant to your actual experience:"
+                                "Focus on the following skills where they "
+                                "are relevant to your career goals:"
                             )
 
                             for skill in result["missing"]:
                                 st.markdown(f"- **{skill}**")
 
+                            st.caption(
+                                "Add a skill to your resume only when "
+                                "you genuinely have that skill."
+                            )
                         else:
-                            st.write(
+                            st.success(
                                 "Your resume contains all skills identified "
                                 "in this job description."
                             )
 
+                    # PDF download
+                    st.markdown("### 📄 Your Detailed Report")
+
                     pdf_bytes = create_pdf_report(result)
 
                     st.download_button(
-                        "📥 Download Your PDF Report",
+                        label="📥 Download PDF Report",
                         data=pdf_bytes,
                         file_name="resume_analysis_report.pdf",
                         mime="application/pdf",
@@ -491,7 +553,6 @@ if analyze_clicked:
 
                     with st.expander("🔍 View extracted resume text"):
                         st.text(resume_text)
-
         except Exception as error:
             st.error(
                 "Analysis failed. Check whether the uploaded file is "
