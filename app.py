@@ -17,7 +17,119 @@ st.set_page_config(
     page_icon="📄",
     layout="wide"
 )
+# PREMIUM UI THEME
+st.markdown("""
+<style>
+/* Main background */
+.stApp {
+    background: linear-gradient(135deg, #080D1C 0%, #11152B 55%, #1A1235 100%);
+    color: #F4F6FF;
+}
 
+/* Main content width and spacing */
+.block-container {
+    max-width: 1050px;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+}
+
+/* Headings */
+h1 {
+    color: #FFFFFF !important;
+    font-size: 2.8rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -1px;
+}
+h2, h3 {
+    color: #E6E9FF !important;
+    font-weight: 700 !important;
+}
+
+/* Normal text */
+.stApp p, .stApp label {
+    color: #D0D6EA;
+}
+
+/* Cards and sections */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(151,140,255,0.22);
+    border-radius: 18px;
+    padding: 18px;
+}
+
+/* File uploader */
+div[data-testid="stFileUploader"] {
+    background: rgba(105, 95, 220, 0.09);
+    border: 1px dashed #8176FF;
+    border-radius: 16px;
+    padding: 15px;
+}
+
+/* Job description input */
+.stTextArea textarea {
+    background-color: #141A30 !important;
+    color: #FFFFFF !important;
+    border: 1px solid #424A70 !important;
+    border-radius: 12px !important;
+}
+
+/* Buttons */
+.stButton > button,
+.stDownloadButton > button {
+    background: linear-gradient(90deg, #6557F5, #9270FF);
+    color: white !important;
+    border: none;
+    border-radius: 12px;
+    padding: 0.65rem 1.3rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.stButton > button:hover,
+.stDownloadButton > button:hover {
+    background: linear-gradient(90deg, #796DFF, #A184FF);
+    transform: translateY(-2px);
+    box-shadow: 0 7px 24px rgba(112, 91, 255, 0.3);
+}
+
+/* Metrics */
+div[data-testid="stMetric"] {
+    background: rgba(105, 95, 220, 0.12);
+    border: 1px solid rgba(151,140,255,0.25);
+    padding: 18px;
+    border-radius: 16px;
+}
+div[data-testid="stMetricLabel"] {
+    color: #C6CBE4 !important;
+}
+div[data-testid="stMetricValue"] {
+    color: #B7A6FF !important;
+    font-weight: 800;
+}
+
+/* Progress bar */
+.stProgress > div > div > div {
+    background: linear-gradient(90deg, #6557F5, #A184FF);
+}
+
+/* Success message */
+div[data-testid="stAlert"] {
+    border-radius: 12px;
+}
+
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: #0B1022;
+    border-right: 1px solid #252B48;
+}
+
+/* Smooth appearance */
+.stApp, .stButton, textarea {
+    transition: all 0.2s ease;
+}
+</style>
+""", unsafe_allow_html=True)
 st.title("📄 AI Resume Analyzer")
 st.caption("Compare your resume with a job description.")
 
