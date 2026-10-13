@@ -426,16 +426,52 @@ if analyze_clicked:
                         min(100, float(result["score"]))
                     )
 
-                    # Match score card
+                    # Circular Match Score Gauge
                     with st.container(border=True):
                         st.markdown("### 🎯 Overall Resume Match")
 
                         score_col, info_col = st.columns([1, 2])
 
                         with score_col:
-                            st.metric(
-                                "Skill Match Score",
-                                f"{score:.0f}%"
+                            st.markdown(
+                                f"""
+                                <div style="
+                                    width: 165px;
+                                    height: 165px;
+                                    border-radius: 50%;
+                                    background: conic-gradient(
+                                        #A78BFA {score}%,
+                                        #252D4B {score}% 100%
+                                    );
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    margin: 10px auto;
+                                    box-shadow: 0 0 28px rgba(139,112,255,0.22);
+                                ">
+                                    <div style="
+                                        width: 135px;
+                                        height: 135px;
+                                        border-radius: 50%;
+                                        background: #11152B;
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                    ">
+                                        <div style="
+                                            color: #FFFFFF;
+                                            font-size: 34px;
+                                            font-weight: 800;
+                                        ">{score:.0f}%</div>
+                                        <div style="
+                                            color: #B8BFE0;
+                                            font-size: 12px;
+                                        ">MATCH SCORE</div>
+                                    </div>
+                                </div>
+                                """,
+                                unsafe_allow_html=True
                             )
 
                         with info_col:
@@ -444,7 +480,7 @@ if analyze_clicked:
 
                             if score >= 75:
                                 st.success(
-                                    "Strong skill match! Review the missing "
+                                    "Strong skill match! Review missing "
                                     "skills before applying."
                                 )
                             elif score >= 45:
